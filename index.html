@@ -238,10 +238,10 @@
                         <h2 class="text-xl font-bold text-white flex items-center">
                             <i class="fa-solid fa-chart-line text-amber-400 mr-2"></i> Rolling Volatility & Economic Crisis Shading
                         </h2>
-                        <p class="text-sm text-slate-400 mt-1">30-Day rolling volatility comparison across Gold, Crude Oil, and Dollar Index (DXY) highlighting major historical shocks.</p>
+                        <p class="text-sm text-slate-400 mt-1">30-Day rolling volatility comparison across Gold, Crude Oil, and Dollar Index (DXY) with active crisis background shading.</p>
                     </div>
                     <div class="mt-4 md:mt-0 flex flex-wrap gap-2 text-xs">
-                        <span class="px-2.5 py-1 rounded bg-gray-700/50 text-gray-300 border border-gray-600">Dot-com (2000-02)</span>
+                        <span class="px-2.5 py-1 rounded bg-slate-700/60 text-slate-300 border border-slate-600">Dot-com (2000-02)</span>
                         <span class="px-2.5 py-1 rounded bg-red-900/50 text-red-300 border border-red-700">GFC (2007-09)</span>
                         <span class="px-2.5 py-1 rounded bg-blue-900/50 text-blue-300 border border-blue-700">Euro Crisis (2010-12)</span>
                         <span class="px-2.5 py-1 rounded bg-emerald-900/50 text-emerald-300 border border-emerald-700">COVID-19 (2020)</span>
@@ -250,7 +250,7 @@
                     </div>
                 </div>
 
-                <!-- Chart Container -->
+                <!-- Chart Container with Crisis Shading -->
                 <div class="w-full h-[400px] bg-slate-900/80 p-4 rounded-xl border border-slate-800">
                     <canvas id="volatilityChart"></canvas>
                 </div>
@@ -484,7 +484,7 @@
             });
 
             document.getElementById('tab-' + tabId).classList.add('active');
-            const activeBtn = document.getElementById('btn-etal' ? 'btn-' + tabId : 'btn-' + tabId);
+            const activeBtn = document.getElementById('btn-' + tabId);
             activeBtn.classList.remove('text-slate-400', 'hover:text-white', 'hover:bg-slate-800');
             activeBtn.classList.add('bg-amber-500/10', 'text-amber-400', 'border', 'border-amber-500/20');
             
@@ -505,36 +505,74 @@
             window.print();
         }
 
-        // Initialize Chart.js Visualizations
+        // Custom Chart.js Plugin for Crisis Background Shading (axvspan equivalent)
+        const crisisShadingPlugin = {
+            id: 'crisisShading',
+            beforeDatasetsDraw(chart) {
+                const { ctx, chartArea, scales } = chart;
+                if (!chartArea) return;
+                const { top, bottom } = chartArea;
+                const xScale = scales.x;
+                if (!xScale) return;
+
+                // Define crisis periods mapped to chart label indices (2000 to 2026 yearly timeline)
+                const crises = [
+                    { name: "Dot-com", startIndex: 0, endIndex: 2, color: 'rgba(156, 163, 175, 0.18)' },       // 2000 - 2002
+                    { name: "GFC", startIndex: 7, endIndex: 9, color: 'rgba(239, 68, 68, 0.18)' },             // 2007 - 2009
+                    { name: "Euro Crisis", startIndex: 10, endIndex: 12, color: 'rgba(59, 130, 246, 0.18)' },  // 2010 - 2012
+                    { name: "COVID-19", startIndex: 20, endIndex: 20.8, color: 'rgba(16, 185, 129, 0.18)' },   // 2020
+                    { name: "Ukraine War", startIndex: 22, endIndex: 22.8, color: 'rgba(249, 115, 22, 0.18)' },// 2022
+                    { name: "Mid-East Conflict", startIndex: 26, endIndex: 26.8, color: 'rgba(236, 72, 153, 0.18)' } // 2026
+                ];
+
+                ctx.save();
+                crises.forEach(c => {
+                    const startX = xScale.getPixelForValue(c.startIndex);
+                    const endX = xScale.getPixelForValue(c.endIndex);
+                    if (startX !== undefined && endX !== undefined) {
+                        ctx.fillStyle = c.color;
+                        ctx.fillRect(startX, top, endX - startX, bottom - top);
+                    }
+                });
+                ctx.restore();
+            }
+        };
+
+        // Initialize Chart.js Visualizations on Load
         window.addEventListener('DOMContentLoaded', () => {
-            // Volatility Chart
+            // Volatility Chart with Crisis Shading Plugin
             const ctxVol = document.getElementById('volatilityChart').getContext('2d');
             new Chart(ctxVol, {
                 type: 'line',
                 data: {
-                    labels: ['2000', '2004', '2008 (GFC)', '2012', '2016', '2020 (COVID)', '2024', '2026'],
+                    labels: [
+                        '2000', '2001', '2002', '2003', '2004', '2005', '2006', 
+                        '2007', '2008', '2009', '2010', '2011', '2012', '2013', 
+                        '2014', '2015', '2016', '2017', '2018', '2019', '2020', 
+                        '2021', '2022', '2023', '2024', '2025', '2026'
+                    ],
                     datasets: [
                         {
                             label: 'Gold Rolling Volatility',
-                            data: [0.012, 0.010, 0.028, 0.015, 0.011, 0.035, 0.014, 0.022],
+                            data: [0.012, 0.011, 0.013, 0.009, 0.010, 0.009, 0.011, 0.012, 0.028, 0.022, 0.015, 0.016, 0.015, 0.010, 0.009, 0.011, 0.011, 0.009, 0.010, 0.012, 0.035, 0.015, 0.018, 0.012, 0.014, 0.013, 0.022],
                             borderColor: '#fbbf24',
-                            backgroundColor: 'rgba(251, 191, 36, 0.1)',
+                            backgroundColor: 'rgba(251, 191, 36, 0.05)',
                             borderWidth: 2,
                             tension: 0.3,
                             fill: true
                         },
                         {
                             label: 'Crude Oil Volatility',
-                            data: [0.025, 0.020, 0.045, 0.022, 0.028, 0.065, 0.019, 0.030],
+                            data: [0.025, 0.022, 0.024, 0.021, 0.020, 0.019, 0.022, 0.024, 0.045, 0.038, 0.022, 0.024, 0.025, 0.018, 0.019, 0.022, 0.028, 0.020, 0.021, 0.023, 0.065, 0.026, 0.032, 0.020, 0.019, 0.021, 0.030],
                             borderColor: '#34d399',
-                            backgroundColor: 'rgba(52, 211, 153, 0.05)',
+                            backgroundColor: 'transparent',
                             borderWidth: 2,
                             tension: 0.3,
                             fill: false
                         },
                         {
                             label: 'DXY Volatility',
-                            data: [0.006, 0.005, 0.012, 0.007, 0.006, 0.015, 0.005, 0.008],
+                            data: [0.006, 0.005, 0.006, 0.005, 0.005, 0.004, 0.005, 0.006, 0.012, 0.009, 0.007, 0.007, 0.007, 0.005, 0.005, 0.006, 0.006, 0.005, 0.005, 0.005, 0.015, 0.006, 0.007, 0.005, 0.005, 0.005, 0.008],
                             borderColor: '#94a3b8',
                             backgroundColor: 'transparent',
                             borderWidth: 2,
@@ -553,7 +591,8 @@
                         x: { grid: { color: 'rgba(51, 65, 85, 0.3)' }, ticks: { color: '#94a3b8' } },
                         y: { grid: { color: 'rgba(51, 65, 85, 0.3)' }, ticks: { color: '#94a3b8' } }
                     }
-                }
+                },
+                plugins: [crisisShadingPlugin]
             });
 
             // Prediction Chart
