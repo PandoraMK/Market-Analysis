@@ -1,4 +1,4 @@
-Gold & Silver Market Analysis: A Multi-Factor Approach
+Gold & Silver Market Analysis: A Multi-Factor Approach (please see https://xau-xag-dashboard.netlify.app/ for a look)
 
 Overview
 This project analyses the relationship between gold (XAU) and silver (XAG) returns and key macroeconomic and financial market variables. 
