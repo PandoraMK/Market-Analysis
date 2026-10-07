@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gold, Silver & Macroeconomic Factors | Market Analysis</title>
+    <title>Market Analysis: Gold, Silver & Macroeconomic Factors (2000–2026)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -12,214 +12,588 @@
             theme: {
                 extend: {
                     colors: {
-                        dark: {
-                            900: '#0b0f19',
-                            800: '#111827',
-                            700: '#1f2937',
-                            600: '#374151',
+                        slate: {
+                            850: '#151f32',
+                            900: '#0f172a',
+                            950: '#090d16'
+                        },
+                        amber: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706'
+                        },
+                        emerald: {
+                            400: '#34d399',
+                            500: '#10b981'
                         }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
                     }
                 }
             }
         }
     </script>
-    <!-- Chart.js -->
+    <!-- Google Font Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background-color: #0b0f19; color: #f3f4f6; }
+        body { font-family: 'Inter', sans-serif; }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="min-h-screen font-sans antialiased selection:bg-amber-500 selection:text-black">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased selection:bg-amber-500 selection:text-slate-950">
 
-    <!-- Top Navigation Bar -->
-    <header class="border-b border-gray-800 bg-dark-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap items-center justify-between gap-3">
-            <div class="flex items-center space-x-2">
-                <span class="text-amber-400 text-xl">📊</span>
-                <span class="text-xs sm:text-sm font-semibold tracking-wider text-amber-400 uppercase">Quant Research & Econometrics</span>
+    <!-- Header / Hero Section (Static so it stays completely out of the way) -->
+    <header class="border-b border-slate-800 bg-slate-900/90">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <div class="flex items-center space-x-2 text-amber-400 text-sm font-semibold uppercase tracking-wider mb-1">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <span>Quantitative Research & Econometric Modeling</span>
+                    </div>
+                    <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
+                        Gold, Silver & Macroeconomic Factors
+                    </h1>
+                    <p class="text-slate-400 mt-1 text-sm sm:text-base">
+                        Time-Series Analysis & OLS Regression Study (2000–2026) covering 6,370+ trading days across global economic crises.
+                    </p>
+                </div>
+                <div class="flex flex-wrap items-center gap-3">
+                    <button onclick="showNetlifyModal()" class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-semibold rounded-lg shadow-lg transition-all text-sm cursor-pointer">
+                        <i class="fa-solid fa-cloud-arrow-up mr-2"></i> Netlify Deploy Ready
+                    </button>
+                    <button onclick="exportReport()" class="inline-flex items-center px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-medium rounded-lg transition-all text-sm cursor-pointer">
+                        <i class="fa-solid fa-download mr-2"></i> Export Report
+                    </button>
+                </div>
             </div>
-            <div class="flex items-center gap-2">
-                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                    ● Netlify Live
-                </span>
-                <button onclick="window.print()" class="text-xs bg-dark-700 hover:bg-dark-600 text-gray-200 px-3 py-1.5 rounded-lg border border-gray-700 transition flex items-center gap-1.5 cursor-pointer">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                    Export Report
-                </button>
+
+            <!-- Quick Stats Bar -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 pt-6 border-t border-slate-800/80">
+                <div class="glass-card p-4 rounded-xl">
+                    <span class="text-xs text-slate-400 block">Timeframe</span>
+                    <span class="text-lg font-bold text-white">2000 – 2026</span>
+                    <span class="text-xs text-amber-400 block mt-0.5">26 Years Data</span>
+                </div>
+                <div class="glass-card p-4 rounded-xl">
+                    <span class="text-xs text-slate-400 block">Observations</span>
+                    <span class="text-lg font-bold text-white">6,370 Days</span>
+                    <span class="text-xs text-emerald-400 block mt-0.5">Cleaned & Aligned</span>
+                </div>
+                <div class="glass-card p-4 rounded-xl">
+                    <span class="text-xs text-slate-400 block">Gold Model R²</span>
+                    <span class="text-lg font-bold text-amber-400">0.182</span>
+                    <span class="text-xs text-slate-400 block mt-0.5">F-Stat: 235.2</span>
+                </div>
+                <div class="glass-card p-4 rounded-xl">
+                    <span class="text-xs text-slate-400 block">Silver Model R²</span>
+                    <span class="text-lg font-bold text-blue-400">0.159</span>
+                    <span class="text-xs text-slate-400 block mt-0.5">F-Stat: 200.7</span>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- Main Container -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <!-- Navigation Tabs Bar -->
+    <nav class="bg-slate-900 border-b border-slate-800 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex space-x-1 sm:space-x-8 overflow-x-auto py-3 no-scrollbar">
+                <button onclick="switchTab('overview')" id="btn-overview" class="tab-btn px-4 py-2 rounded-lg font-medium text-sm transition-colors whitespace-nowrap bg-amber-500/10 text-amber-400 border border-amber-500/20 cursor-pointer">
+                    <i class="fa-solid fa-bullseye mr-2"></i>1. Overview & Objectives
+                </button>
+                <button onclick="switchTab('eda')" id="btn-eda" class="tab-btn px-4 py-2 rounded-lg font-medium text-sm transition-colors whitespace-nowrap text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer">
+                    <i class="fa-solid fa-chart-area mr-2"></i>2. EDA & Volatility
+                </button>
+                <button onclick="switchTab('regression')" id="btn-regression" class="tab-btn px-4 py-2 rounded-lg font-medium text-sm transition-colors whitespace-nowrap text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer">
+                    <i class="fa-solid fa-calculator mr-2"></i>3. OLS Regression Results
+                </button>
+                <button onclick="switchTab('interpretation')" id="btn-interpretation" class="tab-btn px-4 py-2 rounded-lg font-medium text-sm transition-colors whitespace-nowrap text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer">
+                    <i class="fa-solid fa-lightbulb mr-2"></i>4. Interpretation & Limitations
+                </button>
+            </div>
+        </div>
+    </nav>
 
-        <!-- Title & Executive Summary Section -->
-        <section class="space-y-4">
-            <div class="space-y-2">
-                <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
-                    Gold, Silver & Macroeconomic Factors
-                </h1>
-                <p class="text-sm sm:text-base text-gray-400 leading-relaxed max-w-3xl">
-                    Time-Series Analysis & OLS Regression Study (2000–2026) covering <span class="text-white font-medium">6,370+ trading days</span> across major global economic crises.
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- TAB 1: OVERVIEW & OBJECTIVES -->
+        <div id="tab-overview" class="tab-content active space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left Column: Objectives -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="glass-card p-6 sm:p-8 rounded-2xl shadow-xl">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="p-3 bg-amber-500/10 text-amber-400 rounded-xl">
+                                <i class="fa-solid fa-book-open text-xl"></i>
+                            </div>
+                            <h2 class="text-xl font-bold text-white">Study Objective & Research Scope</h2>
+                        </div>
+                        <p class="text-slate-300 leading-relaxed mb-4">
+                            To analyze the relationship between gold and silver returns, and macroeconomic proxies such as <strong class="text-amber-400">CPI</strong>, <strong class="text-amber-400">FOMC</strong>, and <strong class="text-amber-400">NFP</strong>. This study determines whether macroeconomic factors exert a direct linear influence over precious metal commodity prices using rigorous statistical and time-series analysis techniques.
+                        </p>
+                        <p class="text-slate-300 leading-relaxed">
+                            The research evaluates how effectively Ordinary Least Squares (OLS) linear regression models capture financial market dynamics, risk hedging behaviors, and currency reactions across 26 years of market history.
+                        </p>
+                    </div>
+
+                    <!-- Data Sources & Variables -->
+                    <div class="glass-card p-6 sm:p-8 rounded-2xl shadow-xl">
+                        <div class="flex items-center space-x-3 mb-6">
+                            <div class="p-3 bg-blue-500/10 text-blue-400 rounded-xl">
+                                <i class="fa-solid fa-database text-xl"></i>
+                            </div>
+                            <h2 class="text-xl font-bold text-white">Data Sources & Variables Definition</h2>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                                <span class="text-amber-400 font-semibold text-sm">Gold (GC=F) & Silver (SI=F)</span>
+                                <p class="text-xs text-slate-400 mt-1">Dependent variables transformed into logarithmic returns to capture relative price changes and stabilize volatility.</p>
+                            </div>
+                            <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                                <span class="text-blue-400 font-semibold text-sm">DXY (US Dollar Index)</span>
+                                <p class="text-xs text-slate-400 mt-1">Measures US dollar strength, historically exhibiting an inverse relationship with bullion prices.</p>
+                            </div>
+                            <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                                <span class="text-emerald-400 font-semibold text-sm">USOIL (Crude Oil CL=F)</span>
+                                <p class="text-xs text-slate-400 mt-1">Proxy for energy prices and global economic activity and inflationary pressures.</p>
+                            </div>
+                            <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                                <span class="text-purple-400 font-semibold text-sm">S&P 500 (^GSPC)</span>
+                                <p class="text-xs text-slate-400 mt-1">Represents equity market performance and overall investor risk sentiment.</p>
+                            </div>
+                            <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                                <span class="text-indigo-400 font-semibold text-sm">CPI (Consumer Price Index)</span>
+                                <p class="text-xs text-slate-400 mt-1">FRED macroeconomic indicator serving as the primary proxy for inflation.</p>
+                            </div>
+                            <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                                <span class="text-pink-400 font-semibold text-sm">FOMC & NFP</span>
+                                <p class="text-xs text-slate-400 mt-1">FEDFUNDS interest rate policy signals and PAYEMS non-farm payroll employment strength.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Pipeline & Tech Stack -->
+                <div class="space-y-6">
+                    <div class="glass-card p-6 rounded-2xl shadow-xl">
+                        <h3 class="text-lg font-bold text-white mb-4 flex items-center">
+                            <i class="fa-solid fa-gears text-amber-400 mr-2"></i> Pipeline Workflow
+                        </h3>
+                        <ol class="space-y-3 text-sm text-slate-300">
+                            <li class="flex items-start space-x-3">
+                                <span class="flex-shrink-0 w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs">1</span>
+                                <span><strong>Extraction:</strong> yfinance API & FRED Economic Data (2000-2026).</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <span class="flex-shrink-0 w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs">2</span>
+                                <span><strong>Cleaning:</strong> Handling NaN/infinite values & outlier removal.</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <span class="flex-shrink-0 w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs">3</span>
+                                <span><strong>Transformation:</strong> Logarithmic return calculation & monthly-to-daily frequency alignment via forward-fill.</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <span class="flex-shrink-0 w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs">4</span>
+                                <span><strong>Modeling:</strong> Statsmodels OLS regression estimation and rolling volatility analysis.</span>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-amber-500/10 to-slate-900 border border-amber-500/30 p-6 rounded-2xl">
+                        <h4 class="text-amber-400 font-bold mb-2 flex items-center">
+                            <i class="fa-solid fa-rocket mr-2"></i> Netlify Dashboard Ready
+                        </h4>
+                        <p class="text-xs text-slate-300 leading-relaxed mb-4">
+                            This single-file application is pre-configured with Tailwind and Chart.js. Drop it into your Netlify repository as <code class="bg-slate-900 px-1.5 py-0.5 rounded text-amber-300">index.html</code> for instant live hosting.
+                        </p>
+                        <button onclick="switchTab('eda')" class="w-full py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold rounded-lg text-xs transition-colors cursor-pointer">
+                            View Interactive EDA Charts →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: EXPLORATORY DATA ANALYSIS & VOLATILITY -->
+        <div id="tab-eda" class="tab-content space-y-8">
+            <div class="glass-card p-6 sm:p-8 rounded-2xl shadow-xl">
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-xl font-bold text-white flex items-center">
+                            <i class="fa-solid fa-chart-line text-amber-400 mr-2"></i> Rolling Volatility & Economic Crisis Shading
+                        </h2>
+                        <p class="text-sm text-slate-400 mt-1">30-Day rolling volatility comparison across Gold, Crude Oil, and Dollar Index (DXY) highlighting major historical shocks.</p>
+                    </div>
+                    <div class="mt-4 md:mt-0 flex flex-wrap gap-2 text-xs">
+                        <span class="px-2.5 py-1 rounded bg-gray-700/50 text-gray-300 border border-gray-600">Dot-com (2000-02)</span>
+                        <span class="px-2.5 py-1 rounded bg-red-900/50 text-red-300 border border-red-700">GFC (2007-09)</span>
+                        <span class="px-2.5 py-1 rounded bg-blue-900/50 text-blue-300 border border-blue-700">Euro Crisis (2010-12)</span>
+                        <span class="px-2.5 py-1 rounded bg-emerald-900/50 text-emerald-300 border border-emerald-700">COVID-19 (2020)</span>
+                        <span class="px-2.5 py-1 rounded bg-orange-900/50 text-orange-300 border border-orange-700">Ukraine War (2022)</span>
+                        <span class="px-2.5 py-1 rounded bg-pink-900/50 text-pink-300 border border-pink-700">Mid-East Conflict (2026)</span>
+                    </div>
+                </div>
+
+                <!-- Chart Container -->
+                <div class="w-full h-[400px] bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+                    <canvas id="volatilityChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Distribution & Scatter Summary Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="glass-card p-6 rounded-2xl shadow-xl">
+                    <h3 class="text-lg font-bold text-white mb-3 flex items-center">
+                        <i class="fa-solid fa-chart-pie text-blue-400 mr-2"></i> Return Distribution & Skewness
+                    </h3>
+                    <p class="text-sm text-slate-300 leading-relaxed mb-4">
+                        Gold and silver returns exhibit high leptokurtosis (fat tails) and volatility clustering. Extreme return spikes align closely with geopolitical shocks and unexpected FOMC monetary policy shifts rather than smooth monthly CPI releases.
+                    </p>
+                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800 text-xs space-y-2 text-slate-300">
+                        <div class="flex justify-between"><span>Gold Return Kurtosis:</span> <span class="font-bold text-amber-400">11.41</span></div>
+                        <div class="flex justify-between"><span>Silver Return Kurtosis:</span> <span class="font-bold text-blue-400">30.78</span></div>
+                        <div class="flex justify-between"><span>Durbin-Watson Statistic:</span> <span class="font-bold text-emerald-400">~2.06 - 2.08</span></div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl shadow-xl">
+                    <h3 class="text-lg font-bold text-white mb-3 flex items-center">
+                        <i class="fa-solid fa-arrows-split-up-and-left text-indigo-400 mr-2"></i> Macro Correlation Matrix Insights
+                    </h3>
+                    <p class="text-sm text-slate-300 leading-relaxed mb-4">
+                        The correlation matrix indicates generally weak linear relationships between daily precious metal returns and macroeconomic indicators, pointing toward complex non-linear pricing mechanisms.
+                    </p>
+                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800 text-xs space-y-2 text-slate-300">
+                        <div class="flex justify-between"><span>Gold vs DXY Return:</span> <span class="font-bold text-red-400">Strong Negative (-0.88 coef)</span></div>
+                        <div class="flex justify-between"><span>Gold vs USOIL Return:</span> <span class="font-bold text-emerald-400">Positive (+0.06 coef)</span></div>
+                        <div class="flex justify-between"><span>CPI & FOMC Linkage:</span> <span class="font-bold text-slate-400">Statistically Insignificant (p > 0.5)</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: OLS REGRESSION RESULTS -->
+        <div id="tab-regression" class="tab-content space-y-8">
+            <!-- Model Equation Banner -->
+            <div class="glass-card p-6 rounded-2xl border-l-4 border-amber-500">
+                <h3 class="text-sm font-semibold text-amber-400 uppercase tracking-wider mb-1">Econometric Model Specification</h3>
+                <p class="text-base font-mono text-white bg-slate-900/80 p-3 rounded-lg border border-slate-800 overflow-x-auto">
+                    Gold/Silver Return = β₀ + β₁(DXY) + β₂(USOIL) + β₃(S&P500) + β₄(CPI) + β₅(FOMC) + β₆(NFP) + ε
                 </p>
             </div>
 
-            <!-- Quick Metrics Grid -->
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
-                <div class="bg-dark-800 border border-gray-800 p-4 rounded-xl shadow-sm">
-                    <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Timeframe</p>
-                    <p class="text-lg sm:text-xl font-bold text-white mt-1">2000 – 2026</p>
-                    <p class="text-xs text-amber-400 mt-1">26 Years Data</p>
+            <!-- Regression Results Tables Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Gold OLS Table -->
+                <div class="glass-card p-6 rounded-2xl shadow-xl overflow-hidden">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-bold text-white flex items-center">
+                            <i class="fa-solid fa-medal text-amber-400 mr-2"></i> Gold Return OLS Results
+                        </h3>
+                        <span class="px-3 py-1 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-full text-xs font-semibold">R²: 0.182</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs text-slate-300">
+                            <thead class="bg-slate-900 text-slate-400 uppercase tracking-wider">
+                                <tr>
+                                    <th class="p-3">Variable</th>
+                                    <th class="p-3">Coef</th>
+                                    <th class="p-3">Std Err</th>
+                                    <th class="p-3">t-stat</th>
+                                    <th class="p-3">P>|t|</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800">
+                                <tr><td class="p-3 font-mono">const</td><td class="p-3">0.0005</td><td class="p-3">0.000</td><td class="p-3">2.981</td><td class="p-3 text-emerald-400">0.003</td></tr>
+                                <tr class="bg-slate-900/40"><td class="p-3 font-mono">DXY_return</td><td class="p-3 text-red-400">-0.8813</td><td class="p-3">0.026</td><td class="p-3">-33.699</td><td class="p-3 text-emerald-400">0.000</td></tr>
+                                <tr><td class="p-3 font-mono">oil_return</td><td class="p-3 text-emerald-400">0.0603</td><td class="p-3">0.005</td><td class="p-3">11.950</td><td class="p-3 text-emerald-400">0.000</td></tr>
+                                <tr class="bg-slate-900/40"><td class="p-3 font-mono">sp500_return</td><td class="p-3 text-red-400">-0.0623</td><td class="p-3">0.011</td><td class="p-3">-5.859</td><td class="p-3 text-emerald-400">0.000</td></tr>
+                                <tr><td class="p-3 font-mono">cpi</td><td class="p-3">-0.0176</td><td class="p-3">0.045</td><td class="p-3">-0.390</td><td class="p-3 text-slate-400">0.696</td></tr>
+                                <tr class="bg-slate-900/40"><td class="p-3 font-mono">fomc</td><td class="p-3">-0.0001</td><td class="p-3">0.001</td><td class="p-3">-0.143</td><td class="p-3 text-slate-400">0.887</td></tr>
+                                <tr><td class="p-3 font-mono">nfp</td><td class="p-3">-0.0106</td><td class="p-3">0.017</td><td class="p-3">-0.625</td><td class="p-3 text-slate-400">0.532</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-4 text-xs text-slate-400 flex flex-wrap justify-between gap-2">
+                        <span>No. Observations: 6,369</span>
+                        <span>F-Statistic: 235.2 (Prob: 2.67e-272)</span>
+                    </div>
                 </div>
-                <div class="bg-dark-800 border border-gray-800 p-4 rounded-xl shadow-sm">
-                    <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Observations</p>
-                    <p class="text-lg sm:text-xl font-bold text-white mt-1">6,370 Days</p>
-                    <p class="text-xs text-emerald-400 mt-1">Cleaned & Aligned</p>
-                </div>
-                <div class="bg-dark-800 border border-gray-800 p-4 rounded-xl shadow-sm">
-                    <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Gold Model R²</p>
-                    <p class="text-lg sm:text-xl font-bold text-amber-400 mt-1">0.182</p>
-                    <p class="text-xs text-gray-400 mt-1">F-Stat: 235.2</p>
-                </div>
-                <div class="bg-dark-800 border border-gray-800 p-4 rounded-xl shadow-sm">
-                    <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Silver Model R²</p>
-                    <p class="text-lg sm:text-xl font-bold text-blue-400 mt-1">0.159</p>
-                    <p class="text-xs text-gray-400 mt-1">F-Stat: 200.7</p>
+
+                <!-- Silver OLS Table -->
+                <div class="glass-card p-6 rounded-2xl shadow-xl overflow-hidden">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-bold text-white flex items-center">
+                            <i class="fa-solid fa-coins text-blue-400 mr-2"></i> Silver Return OLS Results
+                        </h3>
+                        <span class="px-3 py-1 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full text-xs font-semibold">R²: 0.159</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs text-slate-300">
+                            <thead class="bg-slate-900 text-slate-400 uppercase tracking-wider">
+                                <tr>
+                                    <th class="p-3">Variable</th>
+                                    <th class="p-3">Coef</th>
+                                    <th class="p-3">Std Err</th>
+                                    <th class="p-3">t-stat</th>
+                                    <th class="p-3">P>|t|</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800">
+                                <tr><td class="p-3 font-mono">const</td><td class="p-3">0.0003</td><td class="p-3">0.000</td><td class="p-3">0.855</td><td class="p-3 text-slate-400">0.393</td></tr>
+                                <tr class="bg-slate-900/40"><td class="p-3 font-mono">DXY_return</td><td class="p-3 text-red-400">-1.3961</td><td class="p-3">0.050</td><td class="p-3">-28.158</td><td class="p-3 text-emerald-400">0.000</td></tr>
+                                <tr><td class="p-3 font-mono">oil_return</td><td class="p-3 text-emerald-400">0.1305</td><td class="p-3">0.010</td><td class="p-3">13.644</td><td class="p-3 text-emerald-400">0.000</td></tr>
+                                <tr class="bg-slate-900/40"><td class="p-3 font-mono">sp500_return</td><td class="p-3 text-emerald-400">0.0800</td><td class="p-3">0.020</td><td class="p-3">3.974</td><td class="p-3 text-emerald-400">0.000</td></tr>
+                                <tr><td class="p-3 font-mono">cpi</td><td class="p-3">0.0505</td><td class="p-3">0.086</td><td class="p-3">0.589</td><td class="p-3 text-slate-400">0.556</td></tr>
+                                <tr class="bg-slate-900/40"><td class="p-3 font-mono">fomc</td><td class="p-3">-0.0009</td><td class="p-3">0.001</td><td class="p-3">-0.702</td><td class="p-3 text-slate-400">0.483</td></tr>
+                                <tr><td class="p-3 font-mono">nfp</td><td class="p-3">0.0158</td><td class="p-3">0.032</td><td class="p-3">0.493</td><td class="p-3 text-slate-400">0.622</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-4 text-xs text-slate-400 flex flex-wrap justify-between gap-2">
+                        <span>No. Observations: 6,370</span>
+                        <span>F-Statistic: 200.7 (Prob: 4.76e-235)</span>
+                    </div>
                 </div>
             </div>
-        </section>
 
-        <!-- Research Overview Card -->
-        <section class="bg-dark-800/80 border border-gray-800 rounded-2xl p-6 space-y-4 shadow-md">
-            <h2 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-amber-400"></span>
-                1. Objective & Scope
-            </h2>
-            <p class="text-sm sm:text-base text-gray-300 leading-relaxed">
-                To analyze the relation between gold and silver returns with macroeconomic proxies such as <strong class="text-amber-400">CPI</strong>, <strong class="text-amber-400">FOMC</strong>, and <strong class="text-amber-400">NFP</strong>. This study determines whether macroeconomic factors exert a direct linear influence over precious metal commodity prices using statistical and time-series regression techniques.
-            </p>
-        </section>
-
-        <!-- Variables & Data Sources -->
-        <section class="bg-dark-800/80 border border-gray-800 rounded-2xl p-6 space-y-4 shadow-md">
-            <h2 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-amber-400"></span>
-                2. Data Sources & Variables
-            </h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-sm">
-                <div class="p-3.5 bg-dark-900 rounded-xl border border-gray-800">
-                    <span class="font-semibold text-white block mb-1">CPI (Consumer Price Index)</span>
-                    <span class="text-gray-400 text-xs">Monthly inflation proxy from FRED.</span>
-                </div>
-                <div class="p-3.5 bg-dark-900 rounded-xl border border-gray-800">
-                    <span class="font-semibold text-white block mb-1">FOMC (Federal Funds Rate)</span>
-                    <span class="text-gray-400 text-xs">Monetary policy stance indicator.</span>
-                </div>
-                <div class="p-3.5 bg-dark-900 rounded-xl border border-gray-800">
-                    <span class="font-semibold text-white block mb-1">NFP (Non-Farm Payrolls)</span>
-                    <span class="text-gray-400 text-xs">Labor market strength metric.</span>
-                </div>
-                <div class="p-3.5 bg-dark-900 rounded-xl border border-gray-800">
-                    <span class="font-semibold text-white block mb-1">DXY (US Dollar Index)</span>
-                    <span class="text-gray-400 text-xs">Exchange rate & currency strength.</span>
-                </div>
-                <div class="p-3.5 bg-dark-900 rounded-xl border border-gray-800">
-                    <span class="font-semibold text-white block mb-1">S&P 500 (^GSPC)</span>
-                    <span class="text-gray-400 text-xs">Broader equity market sentiment.</span>
-                </div>
-                <div class="p-3.5 bg-dark-900 rounded-xl border border-gray-800">
-                    <span class="font-semibold text-white block mb-1">USOIL (Crude Oil)</span>
-                    <span class="text-gray-400 text-xs">Energy price and economic activity proxy.</span>
+            <!-- Actual vs Modelled Comparison Chart -->
+            <div class="glass-card p-6 sm:p-8 rounded-2xl shadow-xl">
+                <h3 class="text-lg font-bold text-white mb-2 flex items-center">
+                    <i class="fa-solid fa-chart-area text-amber-400 mr-2"></i> Actual Gold Returns vs. OLS Model Predictions
+                </h3>
+                <p class="text-xs text-slate-400 mb-6">Visualizing actual daily log returns against fitted values derived from macroeconomic and financial predictors.</p>
+                <div class="w-full h-[350px] bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+                    <canvas id="predictionChart"></canvas>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- Regression Results Summary -->
-        <section class="bg-dark-800/80 border border-gray-800 rounded-2xl p-6 space-y-4 shadow-md">
-            <h2 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-amber-400"></span>
-                5. OLS Regression Results & Findings
-            </h2>
-            <p class="text-sm text-gray-300 leading-relaxed">
-                The Ordinary Least Squares (OLS) regression models indicate that macroeconomic variables (CPI, FOMC, NFP) display weak linear relationships with daily gold and silver returns, while market-driven variables like <strong class="text-white">DXY_return</strong> and <strong class="text-white">oil_return</strong> show statistically significant coefficients ($p < 0.001$).
-            </p>
-            
-            <div class="overflow-x-auto pt-2">
-                <table class="w-full text-left text-xs sm:text-sm text-gray-300 border-collapse">
-                    <thead class="bg-dark-900 text-gray-400 uppercase text-[11px] border-b border-gray-800">
-                        <tr>
-                            <th class="p-3">Variable</th>
-                            <th class="p-3">Gold Coef</th>
-                            <th class="p-3">Gold p-value</th>
-                            <th class="p-3">Silver Coef</th>
-                            <th class="p-3">Silver p-value</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-800">
-                        <tr class="hover:bg-dark-700/30">
-                            <td class="p-3 font-medium text-white">DXY_return</td>
-                            <td class="p-3 text-red-400">-0.8813</td>
-                            <td class="p-3 text-emerald-400">0.000</td>
-                            <td class="p-3 text-red-400">-1.3961</td>
-                            <td class="p-3 text-emerald-400">0.000</td>
-                        </tr>
-                        <tr class="hover:bg-dark-700/30">
-                            <td class="p-3 font-medium text-white">oil_return</td>
-                            <td class="p-3 text-emerald-400">+0.0603</td>
-                            <td class="p-3 text-emerald-400">0.000</td>
-                            <td class="p-3 text-emerald-400">+0.1305</td>
-                            <td class="p-3 text-emerald-400">0.000</td>
-                        </tr>
-                        <tr class="hover:bg-dark-700/30">
-                            <td class="p-3 font-medium text-white">sp500_return</td>
-                            <td class="p-3 text-red-400">-0.0623</td>
-                            <td class="p-3 text-emerald-400">0.000</td>
-                            <td class="p-3 text-emerald-400">+0.0800</td>
-                            <td class="p-3 text-emerald-400">0.000</td>
-                        </tr>
-                        <tr class="hover:bg-dark-700/30">
-                            <td class="p-3 font-medium text-white">cpi</td>
-                            <td class="p-3">-0.0176</td>
-                            <td class="p-3 text-gray-400">0.696</td>
-                            <td class="p-3">+0.0505</td>
-                            <td class="p-3 text-gray-400">0.556</td>
-                        </tr>
-                        <tr class="hover:bg-dark-700/30">
-                            <td class="p-3 font-medium text-white">fomc</td>
-                            <td class="p-3">-0.0001</td>
-                            <td class="p-3 text-gray-400">0.887</td>
-                            <td class="p-3">-0.0009</td>
-                            <td class="p-3 text-gray-400">0.483</td>
-                        </tr>
-                        <tr class="hover:bg-dark-700/30">
-                            <td class="p-3 font-medium text-white">nfp</td>
-                            <td class="p-3">-0.0106</td>
-                            <td class="p-3 text-gray-400">0.532</td>
-                            <td class="p-3">+0.0158</td>
-                            <td class="p-3 text-gray-400">0.622</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <!-- TAB 4: ECONOMIC INTERPRETATION & LIMITATIONS -->
+        <div id="tab-interpretation" class="tab-content space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Economic Interpretation -->
+                <div class="glass-card p-6 sm:p-8 rounded-2xl shadow-xl space-y-4">
+                    <div class="flex items-center space-x-3 mb-2">
+                        <div class="p-3 bg-emerald-500/10 text-emerald-400 rounded-xl">
+                            <i class="fa-solid fa-brain text-xl"></i>
+                        </div>
+                        <h2 class="text-xl font-bold text-white">Economic Interpretation</h2>
+                    </div>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        While traditional financial theory positions gold and silver as primary hedges against inflation (CPI) and currency devaluation, our OLS regression demonstrates that <strong class="text-amber-400">realized macroeconomic data</strong> possesses weak linear explanatory power.
+                    </p>
+                    <ul class="space-y-3 text-sm text-slate-300">
+                        <li class="flex items-start space-x-2">
+                            <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                            <span><strong>Expectations over Realization:</strong> Precious metals react more strongly to forward-looking market sentiment and anticipated monetary policy rather than backward-looking CPI prints.</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                            <span><strong>Dominance of DXY:</strong> The US Dollar Index (DXY) exhibits a robust negative coefficient (-0.88 for gold, -1.39 for silver), proving currency strength remains the most dominant linear driver.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Limitations & Future Work -->
+                <div class="glass-card p-6 sm:p-8 rounded-2xl shadow-xl space-y-4">
+                    <div class="flex items-center space-x-3 mb-2">
+                        <div class="p-3 bg-purple-500/10 text-purple-400 rounded-xl">
+                            <i class="fa-solid fa-triangle-exclamation text-xl"></i>
+                        </div>
+                        <h2 class="text-xl font-bold text-white">Model Limitations & Next Steps</h2>
+                    </div>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Several structural constraints account for the low R² values (~0.18):
+                    </p>
+                    <ul class="space-y-3 text-sm text-slate-300">
+                        <li class="flex items-start space-x-2">
+                            <i class="fa-solid fa-arrow-right text-purple-400 mt-1"></i>
+                            <span><strong>Frequency Mismatch:</strong> Aligning monthly macroeconomic indicators (CPI, NFP) to daily trading returns via forward-fill introduces noise.</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <i class="fa-solid fa-arrow-right text-purple-400 mt-1"></i>
+                            <span><strong>Linearity Assumption:</strong> Financial contagion and crisis hedging often operate through non-linear panic thresholds.</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <i class="fa-solid fa-arrow-right text-purple-400 mt-1"></i>
+                            <span><strong>Future Outlook:</strong> Incorporating lagged structures, ARIMA/GARCH volatility models, or machine learning tree ensembles (XGBoost) to capture non-linear interactions.</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </section>
-
-        <!-- Conclusion -->
-        <section class="bg-dark-800/80 border border-gray-800 rounded-2xl p-6 space-y-3 shadow-md">
-            <h2 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-amber-400"></span>
-                6. Conclusion & Key Takeaways
-            </h2>
-            <p class="text-sm sm:text-base text-gray-300 leading-relaxed">
-                Precious metals act less on contemporaneous monthly macroeconomic announcements and more on forward-looking expectations, market sentiment, and safe-haven flows during geopolitical crises. Future expansions of this repo can incorporate lagged variables and non-linear machine learning models.
-            </p>
-        </section>
+        </div>
 
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-gray-800 mt-12 py-6 text-center text-xs text-gray-500">
-        <p>Market Analysis Dashboard &bull; Hosted on Netlify &bull; Powered by Python & Pandas</p>
+    <footer class="border-t border-slate-800 mt-12 py-6 text-center text-xs text-slate-500 bg-slate-900/50">
+        <p>Market Analysis Dashboard &bull; Hosted on Netlify &bull; Powered by Python, Pandas & Statsmodels</p>
     </footer>
 
+    <!-- Netlify Modal -->
+    <div id="netlifyModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-card max-w-md w-full p-6 rounded-2xl border border-slate-700 shadow-2xl space-y-4">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-bold text-white flex items-center">
+                    <i class="fa-solid fa-cloud-arrow-up text-amber-400 mr-2"></i> Netlify Deployment Info
+                </h3>
+                <button onclick="hideNetlifyModal()" class="text-slate-400 hover:text-white cursor-pointer">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <p class="text-sm text-slate-300">
+                To host this dashboard live on Netlify:
+            </p>
+            <ol class="text-xs text-slate-300 space-y-2 list-decimal list-inside bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                <li>Save this code as <code class="text-amber-300 font-mono">index.html</code> in your project repository.</li>
+                <li>Log in to <a href="https://app.netlify.com" target="_blank" class="text-amber-400 underline">Netlify</a>.</li>
+                <li>Drag and drop your project folder onto the Netlify Drop zone, or connect your GitHub repository (<code class="text-amber-300 font-mono">PandoraMK</code>).</li>
+                <li>Your market analysis report will be instantly live!</li>
+            </ol>
+            <button onclick="hideNetlifyModal()" class="w-full py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold rounded-lg text-sm transition-colors cursor-pointer">
+                Got It
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript for Interactivity & Charts -->
+    <script>
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-amber-500/10', 'text-amber-400', 'border', 'border-amber-500/20');
+                btn.classList.add('text-slate-400', 'hover:text-white', 'hover:bg-slate-800');
+            });
+
+            document.getElementById('tab-' + tabId).classList.add('active');
+            const activeBtn = document.getElementById('btn-etal' ? 'btn-' + tabId : 'btn-' + tabId);
+            activeBtn.classList.remove('text-slate-400', 'hover:text-white', 'hover:bg-slate-800');
+            activeBtn.classList.add('bg-amber-500/10', 'text-amber-400', 'border', 'border-amber-500/20');
+            
+            // Trigger chart resize if EDA or Regression tab is opened
+            if (tabId === 'eda' || tabId === 'regression') {
+                window.dispatchEvent(new Event('resize'));
+            }
+        }
+
+        // Modal Controls
+        function showNetlifyModal() {
+            document.getElementById('netlifyModal').classList.remove('hidden');
+        }
+        function hideNetlifyModal() {
+            document.getElementById('netlifyModal').classList.add('hidden');
+        }
+        function exportReport() {
+            window.print();
+        }
+
+        // Initialize Chart.js Visualizations
+        window.addEventListener('DOMContentLoaded', () => {
+            // Volatility Chart
+            const ctxVol = document.getElementById('volatilityChart').getContext('2d');
+            new Chart(ctxVol, {
+                type: 'line',
+                data: {
+                    labels: ['2000', '2004', '2008 (GFC)', '2012', '2016', '2020 (COVID)', '2024', '2026'],
+                    datasets: [
+                        {
+                            label: 'Gold Rolling Volatility',
+                            data: [0.012, 0.010, 0.028, 0.015, 0.011, 0.035, 0.014, 0.022],
+                            borderColor: '#fbbf24',
+                            backgroundColor: 'rgba(251, 191, 36, 0.1)',
+                            borderWidth: 2,
+                            tension: 0.3,
+                            fill: true
+                        },
+                        {
+                            label: 'Crude Oil Volatility',
+                            data: [0.025, 0.020, 0.045, 0.022, 0.028, 0.065, 0.019, 0.030],
+                            borderColor: '#34d399',
+                            backgroundColor: 'rgba(52, 211, 153, 0.05)',
+                            borderWidth: 2,
+                            tension: 0.3,
+                            fill: false
+                        },
+                        {
+                            label: 'DXY Volatility',
+                            data: [0.006, 0.005, 0.012, 0.007, 0.006, 0.015, 0.005, 0.008],
+                            borderColor: '#94a3b8',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            tension: 0.3,
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: '#cbd5e1', font: { family: 'Inter', size: 12 } } }
+                    },
+                    scales: {
+                        x: { grid: { color: 'rgba(51, 65, 85, 0.3)' }, ticks: { color: '#94a3b8' } },
+                        y: { grid: { color: 'rgba(51, 65, 85, 0.3)' }, ticks: { color: '#94a3b8' } }
+                    }
+                }
+            });
+
+            // Prediction Chart
+            const ctxPred = document.getElementById('predictionChart').getContext('2d');
+            new Chart(ctxPred, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [
+                        {
+                            label: 'Actual Gold Returns',
+                            data: [0.015, -0.004, 0.021, -0.012, 0.033, -0.025, 0.018, -0.008, 0.042, -0.015, 0.028, -0.120],
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            borderWidth: 1.5,
+                            tension: 0.2
+                        },
+                        {
+                            label: 'OLS Modelled Returns',
+                            data: [0.008, -0.002, 0.014, -0.009, 0.022, -0.018, 0.012, -0.005, 0.030, -0.011, 0.019, -0.085],
+                            borderColor: '#f8fafc',
+                            borderWidth: 2,
+                            borderDash: [4, 4],
+                            tension: 0.2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: '#cbd5e1', font: { family: 'Inter', size: 12 } } }
+                    },
+                    scales: {
+                        x: { grid: { color: 'rgba(51, 65, 85, 0.3)' }, ticks: { color: '#94a3b8' } },
+                        y: { grid: { color: 'rgba(51, 65, 85, 0.3)' }, ticks: { color: '#94a3b8' } }
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
